@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:my_portfolio/models/project.dart';
+import 'package:my_portfolio/pages/project/project_detail.dart';
+import 'package:my_portfolio/widgets/year/year_container.dart';
 
 class ProjectCard extends StatelessWidget {
   final Project project;
@@ -9,13 +11,11 @@ class ProjectCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        showDialog(
-          context: context,
-          builder: (context) {
-            return AlertDialog(
-              title: Text('Clicked on project ${project.projectName}'),
-            );
-          },
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => ProjectDetail(project: project),
+          ),
         );
       },
       child: Container(
@@ -43,28 +43,20 @@ class ProjectCard extends StatelessWidget {
                   project.projectName,
                   style: const TextStyle(fontSize: 18),
                 ),
-                Container(
-                  padding:
-                      const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
-                  decoration: BoxDecoration(
-                    color: Colors.black,
-                    borderRadius: BorderRadius.circular(20),
-                  ),
-                  child: Text(
-                    '${project.projectYear}',
-                    style: const TextStyle(color: Colors.white),
-                  ),
-                )
+                const YearContainer(year: '2021')
               ],
             ),
-            Container(
-              margin: const EdgeInsets.symmetric(vertical: 15),
-              decoration:
-                  BoxDecoration(borderRadius: BorderRadius.circular(20)),
-              clipBehavior: Clip.antiAlias,
-              child: Image.network(
-                project.projectImageUrl,
-                fit: BoxFit.cover,
+            Hero(
+              tag: project.projectName,
+              child: Container(
+                margin: const EdgeInsets.symmetric(vertical: 15),
+                decoration:
+                    BoxDecoration(borderRadius: BorderRadius.circular(8)),
+                clipBehavior: Clip.antiAlias,
+                child: Image.network(
+                  project.projectImageUrl,
+                  fit: BoxFit.cover,
+                ),
               ),
             ),
             Text(project.projectDescription)
