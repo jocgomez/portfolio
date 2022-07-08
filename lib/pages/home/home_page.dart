@@ -4,6 +4,7 @@ import 'package:my_portfolio/responsive.dart';
 import 'package:my_portfolio/utils/custom_behavior.dart';
 import 'package:my_portfolio/widgets/cards/project_card.dart';
 import 'package:my_portfolio/widgets/header/header.dart';
+import 'package:share_plus/share_plus.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -34,7 +35,8 @@ class HomePage extends StatelessWidget {
       floatingActionButton: FloatingActionButton(
         backgroundColor: Colors.black,
         child: const Icon(Icons.share),
-        onPressed: () {},
+        onPressed: () => Share.share(
+            "Check out Jose's portfolio https://my-portfolio-26602.web.app/#/"),
       ),
     );
   }
