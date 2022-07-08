@@ -19,12 +19,11 @@ class ProjectCard extends StatelessWidget {
         );
       },
       child: Container(
-        width: MediaQuery.of(context).size.width / 1.3,
+        width: 300,
         padding: const EdgeInsets.all(15),
-        margin: const EdgeInsets.symmetric(vertical: 15),
         decoration: BoxDecoration(
           color: Colors.white,
-          borderRadius: BorderRadius.circular(20),
+          borderRadius: BorderRadius.circular(8),
           boxShadow: [
             BoxShadow(
               color: Colors.black.withOpacity(.2),
@@ -43,22 +42,21 @@ class ProjectCard extends StatelessWidget {
                   project.projectName,
                   style: const TextStyle(fontSize: 18),
                 ),
-                const YearContainer(year: '2021')
+                YearContainer(year: '${project.projectYear}')
               ],
             ),
+            const SizedBox(height: 15),
             Hero(
               tag: project.projectName,
-              child: Container(
-                margin: const EdgeInsets.symmetric(vertical: 15),
-                decoration:
-                    BoxDecoration(borderRadius: BorderRadius.circular(8)),
-                clipBehavior: Clip.antiAlias,
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(8.0),
                 child: Image.network(
                   project.projectImageUrl,
                   fit: BoxFit.cover,
                 ),
               ),
             ),
+            const SizedBox(height: 15),
             Text(project.projectDescription)
           ],
         ),

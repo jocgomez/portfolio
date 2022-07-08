@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:my_portfolio/models/project.dart';
+import 'package:my_portfolio/responsive.dart';
 import 'package:my_portfolio/widgets/year/year_container.dart';
 
 class ProjectDetail extends StatelessWidget {
@@ -14,13 +15,20 @@ class ProjectDetail extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: Colors.white,
         foregroundColor: Colors.black,
+        centerTitle: false,
         title: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text(
-              project.projectName,
-              style: const TextStyle(fontWeight: FontWeight.bold),
+            Flexible(
+              child: FittedBox(
+                fit: BoxFit.scaleDown,
+                child: Text(
+                  project.projectName,
+                  style: const TextStyle(fontWeight: FontWeight.bold),
+                ),
+              ),
             ),
+            const SizedBox(width: 10),
             YearContainer(year: '${project.projectYear}')
           ],
         ),
@@ -36,11 +44,28 @@ class ProjectDetail extends StatelessWidget {
               Hero(
                 tag: project.projectName,
                 child: Container(
+                  constraints: BoxConstraints(maxHeight: screenSize.height / 2),
                   clipBehavior: Clip.antiAlias,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(8),
                   ),
-                  child: Image.network(project.projectImageUrl),
+                  child: Responsive(
+                    mobile: Image.network(
+                      project.projectImageUrl,
+                      fit: BoxFit.cover,
+                    ),
+                    tablet: Image.network(
+                      project.projectImageUrl,
+                      fit: BoxFit.cover,
+                    ),
+                    desktop: SizedBox(
+                      height: 350,
+                      child: Image.network(
+                        project.projectImageUrl,
+                        fit: BoxFit.cover,
+                      ),
+                    ),
+                  ),
                 ),
               ),
               const SizedBox(height: 15),

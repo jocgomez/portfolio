@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:my_portfolio/examples/projects.dart';
+import 'package:my_portfolio/responsive.dart';
+import 'package:my_portfolio/utils/custom_behavior.dart';
 import 'package:my_portfolio/widgets/cards/project_card.dart';
 import 'package:my_portfolio/widgets/header/header.dart';
 
@@ -54,22 +56,49 @@ class ProjectsSection extends StatelessWidget {
             fontWeight: FontWeight.bold,
           ),
         ),
-        SizedBox(
-          height: 350,
-          child: ListView.separated(
-            scrollDirection: Axis.horizontal,
-            itemCount: projects.length,
-            separatorBuilder: (context, index) {
-              return const SizedBox(width: 15);
-            },
-            itemBuilder: (context, index) {
-              return ProjectCard(
-                project: projects[index],
-              );
-            },
-          ),
-        ),
+        Responsive(
+            mobile: mobileTabletBuilder(350),
+            tablet: mobileTabletBuilder(350),
+            desktop: desktopBuilder()),
       ],
+    );
+  }
+
+  Widget mobileTabletBuilder(double height) {
+    return SizedBox(
+      height: height,
+      child: ScrollConfiguration(
+        behavior: MyCustomScrollBehavior(),
+        child: ListView.separated(
+          padding: const EdgeInsets.symmetric(vertical: 10),
+          scrollDirection: Axis.horizontal,
+          itemCount: projects.length,
+          separatorBuilder: (context, index) {
+            return const SizedBox(width: 15);
+          },
+          itemBuilder: (context, index) {
+            return ProjectCard(
+              project: projects[index],
+            );
+          },
+        ),
+      ),
+    );
+  }
+
+  Widget desktopBuilder() {
+    return GridView.builder(
+      shrinkWrap: true,
+      padding: const EdgeInsets.symmetric(vertical: 10),
+      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+        crossAxisCount: 3,
+        crossAxisSpacing: 5.0,
+        mainAxisSpacing: 5.0,
+      ),
+      itemCount: projects.length,
+      itemBuilder: (BuildContext context, int index) {
+        return ProjectCard(project: projects[index]);
+      },
     );
   }
 }
